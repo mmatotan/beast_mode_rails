@@ -7,7 +7,7 @@
   "paths": {
     "/users": {
       "post": {
-        "summary": "Creates a user",
+        "summary": "Create a user",
         "tags": [
           "Users"
         ],
@@ -17,6 +17,14 @@
         "responses": {
           "201": {
             "description": "Created",
+            "headers": {
+              "Authorization": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Bearer token used to authenticate the user."
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -102,6 +110,127 @@
           }
         }
       }
+    },
+    "/users/sign_in": {
+      "post": {
+        "summary": "Sign in",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+
+        ],
+        "responses": {
+          "201": {
+            "description": "Session created",
+            "headers": {
+              "Authorization": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Bearer token used to authenticate the user."
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Invalid Email or password.",
+                      "description": "Error message"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "type": "object",
+                    "properties": {
+                      "email": {
+                        "type": "string",
+                        "format": "email"
+                      },
+                      "password": {
+                        "type": "string",
+                        "format": "password"
+                      }
+                    },
+                    "required": [
+                      "email",
+                      "password"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/sign_out": {
+      "post": {
+        "summary": "Sign out",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "jwt_auth": {
+            }
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Session created"
+          }
+        }
+      }
     }
   },
   "servers": [
@@ -113,5 +242,15 @@
         }
       }
     }
-  ]
+  ],
+  "components": {
+    "securitySchemas": {
+      "jwt_auth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "in": "header"
+      }
+    }
+  }
 }

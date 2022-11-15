@@ -1,8 +1,8 @@
 require 'swagger_helper'
 
-describe 'Users API' do
+describe 'Users registration' do
   path '/users' do
-    post 'Creates a user' do
+    post 'Create a user' do
       tags 'Users'
       consumes 'application/json'
       parameter name: :user, in: :body, schema: {
@@ -30,7 +30,7 @@ describe 'Users API' do
                  created_at: { type: :string, format: 'date-time' },
                  updated_at: { type: :string, format: 'date-time' }
                }
-
+        header 'Authorization', schema: { type: :string }, description: 'Bearer token used to authenticate the user.'
         let(:user) do
           { user: { email: 'marko.matotan4@gmail.com', password: 'password123', password_confirmation: 'password123' } }
         end
@@ -62,6 +62,7 @@ describe 'Users API' do
         end
         run_test!
       end
+
     end
   end
 end
