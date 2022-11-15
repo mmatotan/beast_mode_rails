@@ -31,9 +31,10 @@ describe 'Users sign in' do
                }
         header 'Authorization', schema: { type: :string }, description: 'Bearer token used to authenticate the user.'
 
-        let(:user) do
-          { user: { email: 'marko.matotan4@gmail.com', password: 'password123' } }
-        end
+        let(:email) { Faker::Internet.email }
+        let(:password) { Faker::Internet.password }
+        let!(:user_create) { FactoryBot.create(:user, email:, password:, password_confirmation: password) }
+        let(:user) { { user: { email:, password: } } }
         run_test!
       end
 
@@ -50,7 +51,7 @@ describe 'Users sign in' do
                }
 
         let(:user) do
-          { user: { email: 'stef@kodius.com', password: 'password123' } }
+          { user: { email: Faker::Internet.email, password: Faker::Internet.password } }
         end
         run_test!
       end

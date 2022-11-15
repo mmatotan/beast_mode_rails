@@ -15,8 +15,8 @@ RSpec.configure do |config|
   # document below. You can override this behavior by adding a swagger_doc tag to the
   # the root example_group in your specs, e.g. describe '...', swagger_doc: 'v2/swagger.json'
   config.swagger_docs = {
-    'v1/swagger.yaml' => {
-      openapi: '3.0.1',
+    'v1/swagger.json' => {
+      swagger: '2.0',
       info: {
         title: 'Beast mode API V1',
         version: 'v1'
@@ -38,7 +38,6 @@ RSpec.configure do |config|
             type: :http,
             scheme: :bearer,
             bearerFormat: :JWT,
-            in: :header
           }
         }
       }
