@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+
+  database:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+
+  backend:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: postgres
+      DATABASE_HOST: database
+    depends_on:
+      - database
+
+volumes:
+  postgres-data:

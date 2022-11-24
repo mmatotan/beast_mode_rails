@@ -29,5 +29,5 @@
 /config/master.key
 
 .vscode
-
 .byebug_history
+.env
